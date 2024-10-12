@@ -16,8 +16,9 @@ set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
 add_definitions("-D SOPHUS_USE_BASIC_LOGGING")
 add_definitions(-DBOOST_ERROR_CODE_HEADER_ONLY)
 
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(glog REQUIRED libglog)
 find_package(Gflags)
-find_package(Glog)
 find_package(Eigen3 REQUIRED)
 find_package(OpenCV REQUIRED)
 find_package(Ceres REQUIRED)
@@ -66,7 +67,7 @@ ADD_LIBRARY(MyVio SHARED
 
 target_link_libraries(MyVio
         ${TBB_LIBRARIES}
-        ${GLOG_LIBRARIES}
+        ${glog_LIBRARIES}
         ${GFLAGS_LIBRARIES}
         ${Boost_LIBRARIES}
         ${STD_CXX_FS}
