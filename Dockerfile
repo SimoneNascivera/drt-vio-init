@@ -56,4 +56,8 @@ RUN git clone https://github.com/SimoneNascivera/drt-vio-init.git && \
     cmake .. && \
     make
 
+RUN wget http://robotics.ethz.ch/~asl-datasets/ijrr_euroc_mav_dataset/machine_hall/MH_02_easy/MH_02_easy.zip && \
+    unzip MH_02_easy.zip && \
+    rm MH_02_easy.zip
+    
 CMD [ "/bin/bash" ]
