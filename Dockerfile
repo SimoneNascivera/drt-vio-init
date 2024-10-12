@@ -34,24 +34,26 @@ RUN git clone https://ceres-solver.googlesource.com/ceres-solver && \
     cd ../.. && \
     rm -rf ceres-solver
 
-RUN apt update && git clone https://github.com/stevenlovegrove/Pangolin.git && \
+RUN apt update && git clone --recursive https://github.com/stevenlovegrove/Pangolin.git && \
     cd Pangolin && \
-    git checkout v0.8 && \
     sed -i 's/PKGS_OPTIONS+=(install --no-install-suggests --no-install-recommends)/PKGS_OPTIONS+=(install -y --no-install-suggests --no-install-recommends)/g' ./scripts/install_prerequisites.sh && \
+    sed -i 's/PKGS_RECOMMENDED+=(libjpeg-dev libpng-dev catch2)/PKGS_RECOMMENDED+=(libjpeg-dev libpng-dev)/g' ./scripts/install_prerequisites.sh && \
     ./scripts/install_prerequisites.sh recommended && \
+    git checkout ./scripts/install_prerequisites.sh && \
+    git checkout v0.6 && \
     mkdir build && \
     cd build && \
     cmake .. && \
-    make -j$(nproc) && \
+    cmake --build . && \
     make install && \
     cd ../.. && \
-    rm -rf ceres-solver
+    rm -rf Pangolin
 
 RUN git clone https://github.com/SimoneNascivera/drt-vio-init.git && \
-    cd ~/drt-vio-init/ && \
+    cd drt-vio-init/ && \
     mkdir build && \
     cd build && \
     cmake .. && \
-    make -j4
+    make
 
 CMD [ "/bin/bash" ]
